@@ -127,6 +127,10 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 							break;
 					}
 
+					let snippet = createSnippet(suggestion);
+					if (snippet.length != suggestion.sourcetext.length) {
+						item.insertText = snippet;
+					}
 					return item;
 				});
 				resolve(items);
@@ -158,6 +162,7 @@ connection.onDocumentSymbol((documentSymbolParams: DocumentSymbolParams): Thenab
 						kind: 3,
 						location: symbolLocation
 					};
+					// TODO use swift types?
 					switch (value['key.kind']) {
 						case 'source.lang.swift.decl.var.global':
 							symbol.kind = SymbolKind.Variable;
@@ -189,3 +194,19 @@ connection.onDocumentSymbol((documentSymbolParams: DocumentSymbolParams): Thenab
 
 // Listen on the connection
 connection.listen();
+
+// Helpers
+
+/**
+ * Creates a snippet formatted string with cursor positions from sourcekit sourcetext
+ *
+ * @param {SwiftCompletionSuggestion} suggestion
+ * @returns {string}
+ */
+function createSnippet(suggestion: SwiftCompletionSuggestion): string {
+	let cursorIndex = 1
+	const replacer = suggestion.sourcetext.replace(/<#T##(.+?)#>/g, (_, group) => {
+		return `\{{${cursorIndex++}:${group.split('##')[0]}}}`;
+	});
+	return replacer.replace('<#code#>', `\{{${cursorIndex++}}}`);
+};
