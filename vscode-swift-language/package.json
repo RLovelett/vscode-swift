@@ -3,6 +3,7 @@
     "displayName": "Swift (SourceKit)",
     "description": "Provide code intelligence to VS Code through the SourceKit framework.",
     "version": "0.0.2",
+    "icon": "images/Swift_logo.png",
     "publisher": "rlovelett",
     "engines": {
         "vscode": "^1.0.0"
