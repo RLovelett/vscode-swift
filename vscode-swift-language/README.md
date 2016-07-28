@@ -25,11 +25,11 @@ Future support for:
 
 Use completion lists to find out about available standard library types and function signatures.
 
-![Struct Def](images/vscode-swift-completion.gif)
+![Struct Def](http://i.giphy.com/26gJAJzxzZDsVEs24.gif)
 
 Do the same for your own custom types. Including documentation comments.
 
-![Struct Docs](images/vscode-swift-documentation.gif)
+![Struct Docs](http://i.giphy.com/l0HlzNmlfLl7fyc0g.gif)
 
 ## Requirements
 
