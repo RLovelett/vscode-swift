@@ -74,6 +74,7 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 					item.documentation = value.docBrief;
 					switch (value.kind) {
 						case "source.lang.swift.decl.module":
+							connection.console.log(value);
 							item.kind = CompletionItemKind.Module;
 							break;
 						case "source.lang.swift.keyword":
