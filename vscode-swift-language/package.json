@@ -2,15 +2,33 @@
     "name": "vscode-swift-language",
     "displayName": "Swift (SourceKit)",
     "description": "Provide code intelligence to VS Code through the SourceKit framework.",
-    "version": "0.0.2",
     "icon": "images/Swift_logo.png",
+    "bugs": {
+        "url": "https://github.com/RLovelett/vscode-swift/issues"
+    },
+    "homepage": "https://github.com/RLovelett/vscode-swift/blob/master/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/RLovelett/vscode-swift.git"
+    },
+    "license": "SEE LICENSE IN LICENSE",
+    "version": "0.0.3",
     "publisher": "rlovelett",
     "engines": {
         "vscode": "^1.0.0"
     },
     "categories": [
-        "Other"
+        "Languages"
     ],
+    "keywords": [
+        "Swift",
+        "SourceKit",
+        "SourceKitten",
+        "completion",
+        "symbols",
+        "documentation"
+    ],
+    "preview": true,
     "activationEvents": [
         "onLanguage:swift"
     ],
