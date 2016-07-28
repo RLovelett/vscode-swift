@@ -13,7 +13,7 @@ import {
 	InitializeParams, InitializeResult, TextDocumentPositionParams, DocumentSymbolParams,
 	CompletionItem, CompletionItemKind,
 	Hover, DocumentHighlight, SymbolInformation, SymbolKind, Location, Range, Position,
-	DidOpenTextDocumentParams, DidChangeTextDocumentParams, DidCloseTextDocumentParams
+	DidOpenTextDocumentParams, DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidChangeConfigurationParams
 } from 'vscode-languageserver';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
@@ -25,6 +25,20 @@ let documents: TextDocuments = new TextDocuments();
 // Make the text document manager listen on the connection
 // for open, change and close text document events
 documents.listen(connection);
+
+interface Settings {
+	swift: ExampleSettings;
+}
+
+interface ExampleSettings {
+	sourceKittenPath: string;
+}
+
+let sourceKittenPath: string;
+connection.onDidChangeConfiguration((change: DidChangeConfigurationParams) => {
+	let settings = <Settings>change.settings;
+	sourceKittenPath = settings.swift.sourceKittenPath;
+});
 
 // After the server has started the client sends an initilize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilites.
@@ -61,7 +75,7 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 	connection.console.log(offset.toString());
 
 	let promise: Promise<CompletionItem[]> = new Promise((resolve, reject) => {
-		execFile('/usr/local/bin/sourcekitten', ['complete', '--text', document.getText(), '--offset', (offset - 1).toString()], (error, stdout, stderr) => {
+		execFile(sourceKittenPath, ['complete', '--text', document.getText(), '--offset', (offset - 1).toString()], (error, stdout, stderr) => {
 			if (error) { reject(error); }
 			else {
 				let json: any[] = JSON.parse(stdout.toString());
@@ -133,7 +147,7 @@ connection.onDocumentHighlight((textDocumentPosition: TextDocumentPositionParams
 connection.onDocumentSymbol((documentSymbolParams: DocumentSymbolParams): Thenable<SymbolInformation[]> => {
 	let document: TextDocument = documents.get(documentSymbolParams.textDocument.uri);
 	let promise: Promise<SymbolInformation[]> = new Promise((resolve, reject) => {
-		execFile('/usr/local/bin/sourcekitten', ['structure', '--text', document.getText()], (error, stdout, stderr) => {
+		execFile(sourceKittenPath, ['structure', '--text', document.getText()], (error, stdout, stderr) => {
 			if (error) { reject(error); }
 			else {
 				let json: any[] = JSON.parse(stdout.toString());

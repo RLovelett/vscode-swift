@@ -16,7 +16,10 @@ export function activate(context: ExtensionContext) {
     };
 
     let clientOptions: LanguageClientOptions = {
-        documentSelector: ['swift']
+        documentSelector: ['swift'],
+        synchronize: {
+            configurationSection: 'swift'
+        }
     }
 
     let client = new LanguageClient('Swift', serverOptions, clientOptions);
