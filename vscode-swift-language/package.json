@@ -25,7 +25,6 @@
         "SourceKit",
         "SourceKitten",
         "completion",
-        "symbols",
         "documentation"
     ],
     "preview": true,
