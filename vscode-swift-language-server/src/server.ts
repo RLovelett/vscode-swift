@@ -73,6 +73,9 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 					item.detail = `${value.moduleName}.${value.typeName}`;
 					item.documentation = value.docBrief;
 					switch (value.kind) {
+						case "source.lang.swift.decl.module":
+							item.kind = CompletionItemKind.Module;
+							break;
 						case "source.lang.swift.keyword":
 							item.detail = `Keyword: ${value.name}`;
 							item.documentation = '';
