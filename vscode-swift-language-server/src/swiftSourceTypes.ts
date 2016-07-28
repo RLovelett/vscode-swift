@@ -4,7 +4,7 @@ import 	{ SymbolKind, CompletionItemKind,
 /**
  *  Bindings for SourceKit type definitions
  */
-export enum Keyword {
+export enum Swift {
     Keyword, 'source.lang.swift.keyword',
 };
 export enum Decl {
@@ -83,7 +83,7 @@ export enum SyntaxtypeAttribute {
 };
 
 export type SwiftType =
-    Keyword |
+    Swift |
     Decl |
     DeclExtension |
     DeclFunction |
@@ -167,7 +167,7 @@ export function symbolKindForSwiftType(swiftType: SwiftType): SymbolKind {
             return SymbolKind.Interface;
 
 // no super applicable types for these:
-        case Keyword.Keyword:
+        case Swift.Keyword:
         case Syntaxtype.Keyword:
         case SyntaxtypeAttribute.Builtin:
         case Syntaxtype.Comment:
@@ -192,7 +192,7 @@ export function completionKindForSwiftType(swiftType: SwiftType): CompletionItem
 // high confidence
         case Decl.Module:
             return CompletionItemKind.Module;
-        case Keyword.Keyword:
+        case Swift.Keyword:
         case Syntaxtype.Keyword:
             return CompletionItemKind.Keyword;
         case SyntaxtypeAttribute.Builtin:

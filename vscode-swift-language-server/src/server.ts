@@ -7,6 +7,17 @@
 import { execFile } from 'child_process';
 
 import {
+	SwiftType,
+	SwiftCompletionSuggestion,
+	completionKindForSwiftType,
+	symbolKindForSwiftType,
+	Decl,
+	Swift,
+	DeclFunction,
+	DeclVar
+} from './swiftSourceTypes';
+
+import {
 	IConnection, IPCMessageReader, IPCMessageWriter, createConnection,
 	InitializeResult,
 	DidChangeConfigurationParams, TextDocumentPositionParams, DocumentSymbolParams,
@@ -70,55 +81,52 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 		execFile(sourceKittenPath, ['complete', '--text', document.getText(), '--offset', (offset - 1).toString()], (error, stdout, stderr) => {
 			if (error) { reject(error); }
 			else {
-				let json: any[] = JSON.parse(stdout.toString());
-				let items: CompletionItem[] = json.map((value, index, array): CompletionItem => {
-					if (value.num_bytes_to_erase) {
-						connection.console.log(value);
-					}
-					let item = CompletionItem.create(value.name);
-					item.detail = `${value.moduleName}.${value.typeName}`;
-					item.documentation = value.docBrief;
-					switch (value.kind) {
-						case "source.lang.swift.decl.module":
-							connection.console.log(value);
+				let suggestions = <[SwiftCompletionSuggestion]>JSON.parse(stdout.toString());
+				let items: CompletionItem[] = suggestions.map((suggestion, index, array): CompletionItem => {
+					let item = CompletionItem.create(suggestion.descriptionKey);
+					item.detail = `${suggestion.moduleName}.${suggestion.typeName}`;
+					item.documentation = suggestion.docBrief;
+					// default types
+					item.kind = completionKindForSwiftType(suggestion.kind);
+					// overrides
+					switch (suggestion.kind) {
+						case Decl.Module:
 							item.kind = CompletionItemKind.Module;
 							break;
-						case "source.lang.swift.keyword":
-							item.detail = `Keyword: ${value.name}`;
+						case Swift.Keyword:
+							item.detail = `Keyword: ${suggestion.name}`;
 							item.documentation = '';
 							item.kind = CompletionItemKind.Keyword;
 							break;
-						case "source.lang.swift.decl.function.free":
+						case DeclFunction.Free:
 							item.kind = CompletionItemKind.Function;
 							break;
-						case "source.lang.swift.decl.var.instance":
-						case "source.lang.swift.decl.var.global":
+						case DeclVar.Instance:
+						case DeclVar.Global:
 							item.kind = CompletionItemKind.Variable;
 							break;
-						case "source.lang.swift.decl.protocol":
+						case Decl.Protocol:
 							item.kind = CompletionItemKind.Interface;
 							break;
-						case "source.lang.swift.decl.class":
+						case Decl.Class:
 							item.kind = CompletionItemKind.Class;
 							break;
-						case "source.lang.swift.decl.struct":
+						case Decl.Struct:
 							item.kind = CompletionItemKind.Value;
 							break;
-						case "source.lang.swift.decl.function.constructor":
+						case DeclFunction.Constructor:
 							item.kind = CompletionItemKind.Constructor;
-							item.insertText = value.sourcetext;
-							item.documentation = value.descriptionKey;
+							item.insertText = suggestion.sourcetext;
+							item.documentation = suggestion.descriptionKey;
 							break;
-						case "source.lang.swift.decl.enum":
+						case Decl.Enum:
 							item.kind = CompletionItemKind.Enum;
 							break;
-						case "source.lang.swift.decl.typealias":
+						case Decl.Typealias:
 							item.kind = CompletionItemKind.Reference;
 							break;
-						default:
-							connection.console.log(`Unmatched: ${value.kind}`);
-							break;
 					}
+
 					return item;
 				});
 				resolve(items);
