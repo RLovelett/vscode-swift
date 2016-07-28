@@ -1,65 +1,59 @@
-# vscode-swift-language README
+# Swift for Visual Studio Code
 
-This is the README for your extension "vscode-swift-language". After writing up a brief description, we recommend including the following sections.
+This extension adds rich language support for the Swift language to VS Code. These features are provided by the Swift framework itself through [SourceKit](https://github.com/apple/swift/tree/master/tools/SourceKit) and [SourceKitten](https://github.com/jpsim/SourceKitten).
+
+Currently the extension provides rudimentary support for:
+
+- Completion lists
+- Symbol resolution
+
+Future support for:
+
+- Document Highlights: highlights all 'equal' symbols in a Swift document.
+- Hover: provides hover information for a symbol selected in a Swift document.
+- Signature Help: provides signature help for a symbol selected in a Swift document.
+- Find References: find all project-wide references for a symbol selected in a Swift document.
+- List Workspace Symbols: list all project-wide symbols.
+- CodeLens: compute CodeLens statistics for a given Swift document.
+- Rename: project-wide rename of a symbol.
+- Debugger
+- [Swift Package Manger](https://swift.org/package-manager/)
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Completion Lists
 
-For example if there is an image subfolder under your extension project workspace:
+Use completion lists to find out about available standard library types and function signatures.
 
-\!\[feature X\]\(images/feature-x.png\)
+![Struct Def](images/vscode-swift-completion.gif)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Do the same for your own custom types. Including documentation comments.
+
+![Struct Docs](images/vscode-swift-documentation.gif)
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+This extension requires Swift to be installed on your system. More specifically it requires [SourceKit](https://github.com/apple/swift/tree/master/tools/SourceKit) and [SourceKitten](https://github.com/jpsim/SourceKitten) to be available as well.
+
+[Currently, SourceKit and by extension SourceKitten, do not compile on Linux.](https://github.com/jpsim/SourceKitten/pull/223) This limits the extension to only work on macOS. This is not expected to be the long-term solution. In fact running on Linux was the whole reason why I started this extension.
+
+The extension expects [`v0.13.0` of SourceKitten](https://github.com/jpsim/SourceKitten/releases/tag/0.13.0) to be installed at `/usr/local/bin/sourcekitten`.
+
+With [homebrew]() this can easily be achieved by running `brew install sourcekitten`.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+None yet. [FUTURE: Allow user to configure](https://github.com/RLovelett/vscode-swift/issues/1) the location of [SourceKitten](https://github.com/jpsim/SourceKitten).
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- Cannot configure path the SourceKitten
+- Does not run on Linux
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+Not a lot to report yet. Just geting started!
 
-### 1.0.0
+### 0.0.2
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Preview release of the extension
