@@ -2,8 +2,8 @@
 
 import * as Path from 'path';
 
-import { workspace, window, commands, Disposable, ExtensionContext, Command } from 'vscode';
-import { LanguageClient, LanguageClientOptions, SettingMonitor, RequestType, TransportKind, TextDocumentIdentifier, TextEdit, Protocol2Code } from 'vscode-languageclient';
+import { ExtensionContext } from 'vscode';
+import { LanguageClient, LanguageClientOptions, TransportKind } from 'vscode-languageclient';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed

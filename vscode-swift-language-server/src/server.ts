@@ -7,13 +7,12 @@
 import { execFile } from 'child_process';
 
 import {
-	IPCMessageReader, IPCMessageWriter,
-	createConnection, IConnection, TextDocumentSyncKind,
-	TextDocuments, TextDocument, Diagnostic, DiagnosticSeverity,
-	InitializeParams, InitializeResult, TextDocumentPositionParams, DocumentSymbolParams,
+	IConnection, IPCMessageReader, IPCMessageWriter, createConnection,
+	InitializeResult,
+	DidChangeConfigurationParams, TextDocumentPositionParams, DocumentSymbolParams,
 	CompletionItem, CompletionItemKind,
-	Hover, DocumentHighlight, SymbolInformation, SymbolKind, Location, Range, Position,
-	DidOpenTextDocumentParams, DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidChangeConfigurationParams
+	SymbolInformation, SymbolKind,
+	TextDocument, TextDocuments, Position, Range, Location
 } from 'vscode-languageserver';
 
 // Create a connection for the server. The connection uses Node's IPC as a transport
@@ -60,13 +59,6 @@ connection.onInitialize((params): InitializeResult => {
 			documentSymbolProvider: true
 		}
 	}
-});
-
-connection.onHover((params, token): Hover => {
-	connection.console.log('Got a hover!');
-	return {
-		contents: 'TODO'
-	};
 });
 
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Thenable<CompletionItem[]> => {
@@ -138,10 +130,6 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 
 connection.onCompletionResolve((item: CompletionItem): CompletionItem => {
 	return item;
-});
-
-connection.onDocumentHighlight((textDocumentPosition: TextDocumentPositionParams): Thenable<DocumentHighlight[]> => {
-	return Promise.resolve([]);
 });
 
 connection.onDocumentSymbol((documentSymbolParams: DocumentSymbolParams): Thenable<SymbolInformation[]> => {
