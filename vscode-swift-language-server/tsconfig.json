@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "outDir": "../vscode-swift-language/server",
+        "noLib": true,
+        "sourceMap": true
+    },
+    "exclude": [
+        "node_modules",
+        ".vscode-test"
+    ]
+}
