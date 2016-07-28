@@ -1,7 +1,7 @@
 {
     "name": "vscode-swift-language",
-    "displayName": "Swift (SourceKit)",
-    "description": "Provide code intelligence to VS Code through the SourceKit framework.",
+    "displayName": "Swift",
+    "description": "Swift language integration, through SourceKit, for VS Code.",
     "icon": "images/Swift_logo.png",
     "bugs": {
         "url": "https://github.com/RLovelett/vscode-swift/issues"
