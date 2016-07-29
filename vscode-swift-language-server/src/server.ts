@@ -7,6 +7,11 @@
 import { execFile } from 'child_process';
 
 import {
+	Swift,
+	SwiftCompletionSuggestion,
+} from './swiftSourceTypes';
+
+import {
 	IConnection, IPCMessageReader, IPCMessageWriter, createConnection,
 	InitializeResult,
 	DidChangeConfigurationParams, TextDocumentPositionParams, DocumentSymbolParams,
@@ -70,54 +75,60 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 		execFile(sourceKittenPath, ['complete', '--text', document.getText(), '--offset', (offset - 1).toString()], (error, stdout, stderr) => {
 			if (error) { reject(error); }
 			else {
-				let json: any[] = JSON.parse(stdout.toString());
-				let items: CompletionItem[] = json.map((value, index, array): CompletionItem => {
-					if (value.num_bytes_to_erase) {
-						connection.console.log(value);
-					}
-					let item = CompletionItem.create(value.name);
-					item.detail = `${value.moduleName}.${value.typeName}`;
-					item.documentation = value.docBrief;
-					switch (value.kind) {
-						case "source.lang.swift.decl.module":
-							connection.console.log(value);
+				let suggestions = <[SwiftCompletionSuggestion]>JSON.parse(stdout.toString());
+				let items: CompletionItem[] = suggestions.map((suggestion, index, array): CompletionItem => {
+					let item = CompletionItem.create(suggestion.descriptionKey);
+					item.detail = `${suggestion.moduleName}.${suggestion.typeName}`;
+					item.documentation = suggestion.docBrief;
+					// default types
+					item.kind = Swift.completionKindForSwiftType(suggestion.kind);
+
+					let snippet = createSnippet(suggestion);
+
+					// overrides
+					console.log(suggestion.kind);
+
+					switch (suggestion.kind) {
+						case Swift.DeclModule:
 							item.kind = CompletionItemKind.Module;
 							break;
-						case "source.lang.swift.keyword":
-							item.detail = `Keyword: ${value.name}`;
+						case Swift.Keyword:
+							item.detail = `Keyword: ${suggestion.name}`;
 							item.documentation = '';
 							item.kind = CompletionItemKind.Keyword;
 							break;
-						case "source.lang.swift.decl.function.free":
+						case Swift.DeclFunctionFree:
 							item.kind = CompletionItemKind.Function;
 							break;
-						case "source.lang.swift.decl.var.instance":
-						case "source.lang.swift.decl.var.global":
+						case Swift.DeclVarInstance:
+						case Swift.DeclVarGlobal:
 							item.kind = CompletionItemKind.Variable;
 							break;
-						case "source.lang.swift.decl.protocol":
+						case Swift.DeclProtocol:
 							item.kind = CompletionItemKind.Interface;
 							break;
-						case "source.lang.swift.decl.class":
+						case Swift.DeclClass:
 							item.kind = CompletionItemKind.Class;
 							break;
-						case "source.lang.swift.decl.struct":
+						case Swift.DeclStruct:
 							item.kind = CompletionItemKind.Value;
 							break;
-						case "source.lang.swift.decl.function.constructor":
+						case Swift.DeclFunctionConstructor:
 							item.kind = CompletionItemKind.Constructor;
-							item.insertText = value.sourcetext;
-							item.documentation = value.descriptionKey;
+							item.insertText = suggestion.sourcetext;
+							item.documentation = suggestion.descriptionKey;
+							// remove leading and trailing parens
+							snippet = snippet.substr(1, snippet.length - 2)
 							break;
-						case "source.lang.swift.decl.enum":
+						case Swift.DeclEnum:
 							item.kind = CompletionItemKind.Enum;
 							break;
-						case "source.lang.swift.decl.typealias":
+						case Swift.DeclTypealias:
 							item.kind = CompletionItemKind.Reference;
 							break;
-						default:
-							connection.console.log(`Unmatched: ${value.kind}`);
-							break;
+					}
+					if (snippet.length != suggestion.sourcetext.length) {
+						item.insertText = snippet;
 					}
 					return item;
 				});
@@ -150,6 +161,7 @@ connection.onDocumentSymbol((documentSymbolParams: DocumentSymbolParams): Thenab
 						kind: 3,
 						location: symbolLocation
 					};
+					// TODO use swift types?
 					switch (value['key.kind']) {
 						case 'source.lang.swift.decl.var.global':
 							symbol.kind = SymbolKind.Variable;
@@ -181,3 +193,19 @@ connection.onDocumentSymbol((documentSymbolParams: DocumentSymbolParams): Thenab
 
 // Listen on the connection
 connection.listen();
+
+// Helpers
+
+/**
+ * Creates a snippet formatted string with cursor positions from sourcekit sourcetext
+ *
+ * @param {SwiftCompletionSuggestion} suggestion
+ * @returns {string}
+ */
+function createSnippet(suggestion: SwiftCompletionSuggestion): string {
+	let cursorIndex = 1
+	const replacer = suggestion.sourcetext.replace(/<#T##(.+?)#>/g, (_, group) => {
+		return `\{{${cursorIndex++}:${group.split('##')[0]}}}`;
+	});
+	return replacer.replace('<#code#>', `\{{${cursorIndex++}}}`);
+};
