@@ -4,70 +4,70 @@ import { SymbolKind, CompletionItemKind,
 /**
  *  Bindings for SourceKit type definitions
  */
-export declare namespace Swift {
+export enum SwiftType {
 
-    let Keyword: 'source.lang.swift.keyword';
-    let DeclAssociatedtype: 'source.lang.swift.decl.associatedtype';
-    let DeclClass: 'source.lang.swift.decl.class';
-    let DeclEnum: 'source.lang.swift.decl.enum';
-    let DeclEnumelement: 'source.lang.swift.decl.enumelement';
-    let DeclGenericTypeParam: 'source.lang.swift.decl.generic_type_param';
-    let DeclProtocol: 'source.lang.swift.decl.protocol';
+    Keyword = <any>'source.lang.swift.keyword',
+    DeclAssociatedtype = <any>'source.lang.swift.decl.associatedtype',
+    DeclClass = <any>'source.lang.swift.decl.class',
+    DeclEnum = <any>'source.lang.swift.decl.enum',
+    DeclEnumelement = <any>'source.lang.swift.decl.enumelement',
+    DeclGenericTypeParam = <any>'source.lang.swift.decl.generic_type_param',
+    DeclProtocol = <any>'source.lang.swift.decl.protocol',
 
-    let DeclStruct: 'source.lang.swift.decl.struct';
-    let DeclTypealias: 'source.lang.swift.decl.typealias';
-    let DeclModule: 'source.lang.swift.decl.module';
-    let DeclExtensionClass: 'source.lang.swift.decl.extension.class';
-    let DeclFunctionConstructor: 'source.lang.swift.decl.function.constructor';
-    let DeclFunctionFree: 'source.lang.swift.decl.function.free';
-    let DeclFunctionSubscript: 'source.lang.swift.decl.function.subscript';
+    DeclStruct = <any>'source.lang.swift.decl.struct',
+    DeclTypealias = <any>'source.lang.swift.decl.typealias',
+    DeclModule = <any>'source.lang.swift.decl.module',
+    DeclExtensionClass = <any>'source.lang.swift.decl.extension.class',
+    DeclFunctionConstructor = <any>'source.lang.swift.decl.function.constructor',
+    DeclFunctionFree = <any>'source.lang.swift.decl.function.free',
+    DeclFunctionSubscript = <any>'source.lang.swift.decl.function.subscript',
 
-    let DeclFunctionOperatorInfix: 'source.lang.swift.decl.function.operator.infix';
+    DeclFunctionOperatorInfix = <any>'source.lang.swift.decl.function.operator.infix',
 
-    let DeclFunctionAccessorGetter: 'source.lang.swift.decl.function.accessor.getter';
-    let DeclFunctionAccessorSetter: 'source.lang.swift.decl.function.accessor.setter';
+    DeclFunctionAccessorGetter = <any>'source.lang.swift.decl.function.accessor.getter',
+    DeclFunctionAccessorSetter = <any>'source.lang.swift.decl.function.accessor.setter',
 
-    let DeclFunctionMethodClass: 'source.lang.swift.decl.function.method.class';
-    let DeclFunctionMethodInstance: 'source.lang.swift.decl.function.method.instance';
-    let DeclFunctionMethodStatic: 'source.lang.swift.decl.function.method.static';
+    DeclFunctionMethodClass = <any>'source.lang.swift.decl.function.method.class',
+    DeclFunctionMethodInstance = <any>'source.lang.swift.decl.function.method.instance',
+    DeclFunctionMethodStatic = <any>'source.lang.swift.decl.function.method.static',
 
-    let DeclVarGlobal: 'source.lang.swift.decl.var.global';
-    let DeclVarInstance: 'source.lang.swift.decl.var.instance';
-    let DeclVarLocal: 'source.lang.swift.decl.var.local';
+    DeclVarGlobal = <any>'source.lang.swift.decl.var.global',
+    DeclVarInstance = <any>'source.lang.swift.decl.var.instance',
+    DeclVarLocal = <any>'source.lang.swift.decl.var.local',
 
-    let RefAssociatedtype: 'source.lang.swift.ref.associatedtype';
-    let RefClass: 'source.lang.swift.ref.class';
-    let RefEnum: 'source.lang.swift.ref.enum';
-    let RefEnumelement: 'source.lang.swift.ref.enumelement';
-    let RefGenericTypeParam: 'source.lang.swift.ref.generic_type_param';
-    let RefProtocol: 'source.lang.swift.ref.protocol';
-    let RefStruct: 'source.lang.swift.ref.struct';
-    let RefTypealias: 'source.lang.swift.ref.typealias';
+    RefAssociatedtype = <any>'source.lang.swift.ref.associatedtype',
+    RefClass = <any>'source.lang.swift.ref.class',
+    RefEnum = <any>'source.lang.swift.ref.enum',
+    RefEnumelement = <any>'source.lang.swift.ref.enumelement',
+    RefGenericTypeParam = <any>'source.lang.swift.ref.generic_type_param',
+    RefProtocol = <any>'source.lang.swift.ref.protocol',
+    RefStruct = <any>'source.lang.swift.ref.struct',
+    RefTypealias = <any>'source.lang.swift.ref.typealias',
 
-    let RefFunctionConstructor: 'source.lang.swift.ref.function.constructor';
-    let RefFunctionFree: 'source.lang.swift.ref.function.free';
-    let RefFunctionSubscript: 'source.lang.swift.ref.function.subscript';
+    RefFunctionConstructor = <any>'source.lang.swift.ref.function.constructor',
+    RefFunctionFree = <any>'source.lang.swift.ref.function.free',
+    RefFunctionSubscript = <any>'source.lang.swift.ref.function.subscript',
 
-    let RefFunctionMethodClass: 'source.lang.swift.ref.function.method.class';
-    let RefFunctionMethodInstance: 'source.lang.swift.ref.function.method.instance';
+    RefFunctionMethodClass = <any>'source.lang.swift.ref.function.method.class',
+    RefFunctionMethodInstance = <any>'source.lang.swift.ref.function.method.instance',
 
-    let RefFunctionOperatorInfix: 'source.lang.swift.ref.function.operator.infix';
+    RefFunctionOperatorInfix = <any>'source.lang.swift.ref.function.operator.infix',
 
-    let RefVarGlobal: 'source.lang.swift.ref.var.global';
-    let RefVarInstance: 'source.lang.swift.ref.var.instance';
-    let RefVarLocal: 'source.lang.swift.ref.var.local';
+    RefVarGlobal = <any>'source.lang.swift.ref.var.global',
+    RefVarInstance = <any>'source.lang.swift.ref.var.instance',
+    RefVarLocal = <any>'source.lang.swift.ref.var.local',
 
-    let SyntaxtypeArgument: 'source.lang.swift.syntaxtype.argument';
-    let SyntaxtypeComment: 'source.lang.swift.syntaxtype.comment';
-    let SyntaxtypeIdentifier: 'source.lang.swift.syntaxtype.identifier';
-    let SyntaxtypeKeyword: 'source.lang.swift.syntaxtype.keyword';
-    let SyntaxtypeNumber: 'source.lang.swift.syntaxtype.number';
-    let SyntaxtypeParameter: 'source.lang.swift.syntaxtype.parameter';
+    SyntaxtypeArgument = <any>'source.lang.swift.syntaxtype.argument',
+    SyntaxtypeComment = <any>'source.lang.swift.syntaxtype.comment',
+    SyntaxtypeIdentifier = <any>'source.lang.swift.syntaxtype.identifier',
+    SyntaxtypeKeyword = <any>'source.lang.swift.syntaxtype.keyword',
+    SyntaxtypeNumber = <any>'source.lang.swift.syntaxtype.number',
+    SyntaxtypeParameter = <any>'source.lang.swift.syntaxtype.parameter',
 
-    let SyntaxtypeAttributeBuiltin: 'source.lang.swift.syntaxtype.attribute.builtin';
+    SyntaxtypeAttributeBuiltin = <any>'source.lang.swift.syntaxtype.attribute.builtin',
 }
 
-export namespace Swift {
+export namespace SwiftType {
 
     /**
      * Maps SourceKit types to VSCode {SymbolKind}
@@ -77,73 +77,73 @@ export namespace Swift {
      * @param {SwiftType} swiftType
      * @returns {SymbolKind}
      */
-    export function symbolKindForSwiftType(swiftType: String): SymbolKind {
+    export function symbolKindForSwiftType(swiftType: SwiftType): SymbolKind {
         // not really easy to have an obvious completion kind per type.
 
         switch (swiftType) {
             // high confidence
-            case Swift.DeclModule:
+            case SwiftType.DeclModule:
                 return SymbolKind.Module;
-            case Swift.DeclEnum:
-            case Swift.DeclEnumelement:
-            case Swift.RefEnum:
-            case Swift.RefEnumelement:
+            case SwiftType.DeclEnum:
+            case SwiftType.DeclEnumelement:
+            case SwiftType.RefEnum:
+            case SwiftType.RefEnumelement:
                 return SymbolKind.Enum;
             // medium confidence
-            case Swift.DeclFunctionFree:
-            case Swift.DeclFunctionSubscript:
-            case Swift.DeclFunctionOperatorInfix:
-            case Swift.RefFunctionFree:
-            case Swift.RefFunctionSubscript:
-            case Swift.RefFunctionOperatorInfix:
+            case SwiftType.DeclFunctionFree:
+            case SwiftType.DeclFunctionSubscript:
+            case SwiftType.DeclFunctionOperatorInfix:
+            case SwiftType.RefFunctionFree:
+            case SwiftType.RefFunctionSubscript:
+            case SwiftType.RefFunctionOperatorInfix:
                 return SymbolKind.Function;
-            case Swift.DeclFunctionMethodClass:
-            case Swift.DeclFunctionMethodStatic:
-            case Swift.DeclFunctionMethodInstance:
+            case SwiftType.DeclFunctionMethodClass:
+            case SwiftType.DeclFunctionMethodStatic:
+            case SwiftType.DeclFunctionMethodInstance:
                 return SymbolKind.Method;
-            case Swift.DeclFunctionConstructor:
-            case Swift.RefFunctionConstructor:
+            case SwiftType.DeclFunctionConstructor:
+            case SwiftType.RefFunctionConstructor:
                 return SymbolKind.Constructor;
-            case Swift.DeclFunctionAccessorGetter:
-            case Swift.DeclFunctionAccessorSetter:
+            case SwiftType.DeclFunctionAccessorGetter:
+            case SwiftType.DeclFunctionAccessorSetter:
                 return SymbolKind.Field;
-            case Swift.DeclAssociatedtype:
-            case Swift.DeclClass:
-            case Swift.DeclStruct:
-            case Swift.DeclExtensionClass:
-            case Swift.RefClass:
-            case Swift.RefStruct:
+            case SwiftType.DeclAssociatedtype:
+            case SwiftType.DeclClass:
+            case SwiftType.DeclStruct:
+            case SwiftType.DeclExtensionClass:
+            case SwiftType.RefClass:
+            case SwiftType.RefStruct:
                 return SymbolKind.Class;
-            case Swift.RefFunctionMethodClass:
-            case Swift.RefFunctionMethodInstance:
+            case SwiftType.RefFunctionMethodClass:
+            case SwiftType.RefFunctionMethodInstance:
                 return SymbolKind.Method;
             // low confidence
-            case Swift.DeclVarGlobal:
-            case Swift.DeclVarInstance:
-            case Swift.DeclVarLocal:
-            case Swift.RefVarGlobal:
-            case Swift.RefVarInstance:
-            case Swift.RefVarLocal:
+            case SwiftType.DeclVarGlobal:
+            case SwiftType.DeclVarInstance:
+            case SwiftType.DeclVarLocal:
+            case SwiftType.RefVarGlobal:
+            case SwiftType.RefVarInstance:
+            case SwiftType.RefVarLocal:
                 return SymbolKind.Variable;
-            case Swift.SyntaxtypeArgument:
-            case Swift.SyntaxtypeParameter:
+            case SwiftType.SyntaxtypeArgument:
+            case SwiftType.SyntaxtypeParameter:
                 return SymbolKind.Field;
-            case Swift.RefAssociatedtype:
-            case Swift.DeclGenericTypeParam:
-            case Swift.RefGenericTypeParam:
-            case Swift.RefProtocol:
-            case Swift.RefTypealias:
-            case Swift.DeclProtocol:
-            case Swift.DeclTypealias:
+            case SwiftType.RefAssociatedtype:
+            case SwiftType.DeclGenericTypeParam:
+            case SwiftType.RefGenericTypeParam:
+            case SwiftType.RefProtocol:
+            case SwiftType.RefTypealias:
+            case SwiftType.DeclProtocol:
+            case SwiftType.DeclTypealias:
                 return SymbolKind.Interface;
 
             // no super applicable types for these:
-            case Swift.Keyword:
-            case Swift.SyntaxtypeKeyword:
-            case Swift.SyntaxtypeAttributeBuiltin:
-            case Swift.SyntaxtypeComment:
-            case Swift.SyntaxtypeIdentifier:
-            case Swift.SyntaxtypeNumber:
+            case SwiftType.Keyword:
+            case SwiftType.SyntaxtypeKeyword:
+            case SwiftType.SyntaxtypeAttributeBuiltin:
+            case SwiftType.SyntaxtypeComment:
+            case SwiftType.SyntaxtypeIdentifier:
+            case SwiftType.SyntaxtypeNumber:
                 console.log("no match for " + swiftType);
         };
         return SymbolKind.Variable;
@@ -157,74 +157,74 @@ export namespace Swift {
      * @param {SwiftType} swiftType
      * @returns {CompletionItemKind}
      */
-    export function completionKindForSwiftType(swiftType: String): CompletionItemKind {
+    export function completionKindForSwiftType(swiftType: SwiftType): CompletionItemKind {
         // not really easy to have an obvious completion kind per type.
         switch (swiftType) {
             // high confidence
-            case Swift.DeclModule:
+            case SwiftType.DeclModule:
                 return CompletionItemKind.Module;
-            case Swift.Keyword:
-            case Swift.SyntaxtypeKeyword:
+            case SwiftType.Keyword:
+            case SwiftType.SyntaxtypeKeyword:
                 return CompletionItemKind.Keyword;
-            case Swift.SyntaxtypeAttributeBuiltin:
+            case SwiftType.SyntaxtypeAttributeBuiltin:
                 return CompletionItemKind.Text;
-            case Swift.DeclEnum:
-            case Swift.DeclEnumelement:
-            case Swift.RefEnum:
-            case Swift.RefEnumelement:
+            case SwiftType.DeclEnum:
+            case SwiftType.DeclEnumelement:
+            case SwiftType.RefEnum:
+            case SwiftType.RefEnumelement:
                 return CompletionItemKind.Enum;
             // medium confidence
-            case Swift.DeclFunctionFree:
-            case Swift.DeclFunctionSubscript:
-            case Swift.DeclFunctionOperatorInfix:
-            case Swift.RefFunctionFree:
-            case Swift.RefFunctionSubscript:
-            case Swift.RefFunctionOperatorInfix:
+            case SwiftType.DeclFunctionFree:
+            case SwiftType.DeclFunctionSubscript:
+            case SwiftType.DeclFunctionOperatorInfix:
+            case SwiftType.RefFunctionFree:
+            case SwiftType.RefFunctionSubscript:
+            case SwiftType.RefFunctionOperatorInfix:
                 return CompletionItemKind.Function;
-            case Swift.DeclFunctionMethodClass:
-            case Swift.DeclFunctionMethodStatic:
-            case Swift.DeclFunctionMethodInstance:
+            case SwiftType.DeclFunctionMethodClass:
+            case SwiftType.DeclFunctionMethodStatic:
+            case SwiftType.DeclFunctionMethodInstance:
                 return CompletionItemKind.Method;
-            case Swift.DeclFunctionConstructor:
-            case Swift.RefFunctionConstructor:
+            case SwiftType.DeclFunctionConstructor:
+            case SwiftType.RefFunctionConstructor:
                 return CompletionItemKind.Constructor;
-            case Swift.DeclFunctionAccessorGetter:
-            case Swift.DeclFunctionAccessorSetter:
+            case SwiftType.DeclFunctionAccessorGetter:
+            case SwiftType.DeclFunctionAccessorSetter:
                 return CompletionItemKind.Field;
-            case Swift.DeclAssociatedtype:
-            case Swift.DeclClass:
-            case Swift.DeclStruct:
-            case Swift.DeclExtensionClass:
-            case Swift.RefClass:
-            case Swift.RefStruct:
+            case SwiftType.DeclAssociatedtype:
+            case SwiftType.DeclClass:
+            case SwiftType.DeclStruct:
+            case SwiftType.DeclExtensionClass:
+            case SwiftType.RefClass:
+            case SwiftType.RefStruct:
                 return CompletionItemKind.Class;
-            case Swift.RefFunctionMethodClass:
-            case Swift.RefFunctionMethodInstance:
+            case SwiftType.RefFunctionMethodClass:
+            case SwiftType.RefFunctionMethodInstance:
                 return CompletionItemKind.Method;
             // low confidence
-            case Swift.DeclVarGlobal:
-            case Swift.DeclVarInstance:
-            case Swift.DeclVarLocal:
-            case Swift.RefVarGlobal:
-            case Swift.RefVarInstance:
-            case Swift.RefVarLocal:
+            case SwiftType.DeclVarGlobal:
+            case SwiftType.DeclVarInstance:
+            case SwiftType.DeclVarLocal:
+            case SwiftType.RefVarGlobal:
+            case SwiftType.RefVarInstance:
+            case SwiftType.RefVarLocal:
                 return CompletionItemKind.Variable;
-            case Swift.SyntaxtypeArgument:
-            case Swift.SyntaxtypeParameter:
+            case SwiftType.SyntaxtypeArgument:
+            case SwiftType.SyntaxtypeParameter:
                 return CompletionItemKind.Field;
-            case Swift.RefAssociatedtype:
-            case Swift.DeclGenericTypeParam:
-            case Swift.RefGenericTypeParam:
-            case Swift.RefProtocol:
-            case Swift.RefTypealias:
-            case Swift.DeclProtocol:
-            case Swift.DeclTypealias:
+            case SwiftType.RefAssociatedtype:
+            case SwiftType.DeclGenericTypeParam:
+            case SwiftType.RefGenericTypeParam:
+            case SwiftType.RefProtocol:
+            case SwiftType.RefTypealias:
+            case SwiftType.DeclProtocol:
+            case SwiftType.DeclTypealias:
                 return CompletionItemKind.Reference;
-            case Swift.SyntaxtypeComment:
+            case SwiftType.SyntaxtypeComment:
                 return CompletionItemKind.Text;
-            case Swift.SyntaxtypeIdentifier:
+            case SwiftType.SyntaxtypeIdentifier:
                 return CompletionItemKind.Keyword;
-            case Swift.SyntaxtypeNumber:
+            case SwiftType.SyntaxtypeNumber:
                 return CompletionItemKind.Value;
             default:
                 console.log("un registered type" + swiftType);
@@ -267,7 +267,7 @@ export interface SwiftCompletionSuggestion {
 	/**
 	 * @type {SwiftType}
 	 */
-    kind: string,
+    kind: SwiftType,
 	/**
 	 * @type {string}
 	 */

@@ -7,7 +7,7 @@
 import { execFile } from 'child_process';
 
 import {
-	Swift,
+	SwiftType,
 	SwiftCompletionSuggestion,
 } from './swiftSourceTypes';
 
@@ -81,49 +81,47 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 					item.detail = `${suggestion.moduleName}.${suggestion.typeName}`;
 					item.documentation = suggestion.docBrief;
 					// default types
-					item.kind = Swift.completionKindForSwiftType(suggestion.kind);
+					item.kind = SwiftType.completionKindForSwiftType(suggestion.kind);
 
 					let snippet = createSnippet(suggestion);
 
 					// overrides
-					console.log(suggestion.kind);
-
 					switch (suggestion.kind) {
-						case Swift.DeclModule:
+						case SwiftType.DeclModule:
 							item.kind = CompletionItemKind.Module;
 							break;
-						case Swift.Keyword:
+						case SwiftType.Keyword:
 							item.detail = `Keyword: ${suggestion.name}`;
 							item.documentation = '';
 							item.kind = CompletionItemKind.Keyword;
 							break;
-						case Swift.DeclFunctionFree:
+						case SwiftType.DeclFunctionFree:
 							item.kind = CompletionItemKind.Function;
 							break;
-						case Swift.DeclVarInstance:
-						case Swift.DeclVarGlobal:
+						case SwiftType.DeclVarInstance:
+						case SwiftType.DeclVarGlobal:
 							item.kind = CompletionItemKind.Variable;
 							break;
-						case Swift.DeclProtocol:
+						case SwiftType.DeclProtocol:
 							item.kind = CompletionItemKind.Interface;
 							break;
-						case Swift.DeclClass:
+						case SwiftType.DeclClass:
 							item.kind = CompletionItemKind.Class;
 							break;
-						case Swift.DeclStruct:
+						case SwiftType.DeclStruct:
 							item.kind = CompletionItemKind.Value;
 							break;
-						case Swift.DeclFunctionConstructor:
+						case SwiftType.DeclFunctionConstructor:
 							item.kind = CompletionItemKind.Constructor;
 							item.insertText = suggestion.sourcetext;
 							item.documentation = suggestion.descriptionKey;
 							// remove leading and trailing parens
 							snippet = snippet.substr(1, snippet.length - 2)
 							break;
-						case Swift.DeclEnum:
+						case SwiftType.DeclEnum:
 							item.kind = CompletionItemKind.Enum;
 							break;
-						case Swift.DeclTypealias:
+						case SwiftType.DeclTypealias:
 							item.kind = CompletionItemKind.Reference;
 							break;
 					}
