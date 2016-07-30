@@ -5,6 +5,8 @@ provided by the Swift framework itself through
 [SourceKit](https://github.com/apple/swift/tree/master/tools/SourceKit)
 and [SourceKitten](https://github.com/jpsim/SourceKitten).
 
+![https://github.com/RLovelett/vscode-swift/blob/master/vscode-swift-language/images/vscode-swift-documentation.gif?raw=true](https://github.com/RLovelett/vscode-swift/blob/master/vscode-swift-language/images/vscode-swift-documentation.gif?raw=true)
+
 ## Development setup
 - run npm install inside the `vscode-swift-language` and `vscode-swift-language-server` folders
 - open VS Code on `vscode-swift-language` and `vscode-swift-language-server`
