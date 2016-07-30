@@ -14,7 +14,8 @@ export function activate(context: ExtensionContext) {
         run: { module: serverModule, transport: TransportKind.ipc },
         debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
     };
-
+    
+    // client extensions configure their server
     let clientOptions: LanguageClientOptions = {
         documentSelector: ['swift'],
         synchronize: {

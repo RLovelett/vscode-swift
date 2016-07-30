@@ -30,11 +30,13 @@ let documents: TextDocuments = new TextDocuments();
 // for open, change and close text document events
 documents.listen(connection);
 
+
+// configuration syncing from client
 interface Settings {
-	swift: ExampleSettings;
+	swift: SwiftLanguageServerSettings;
 }
 
-interface ExampleSettings {
+interface SwiftLanguageServerSettings {
 	sourceKittenPath: string;
 }
 
