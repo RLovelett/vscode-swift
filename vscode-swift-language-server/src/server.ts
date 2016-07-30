@@ -72,7 +72,7 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 	connection.console.log(offset.toString());
 
 	let promise: Promise<CompletionItem[]> = new Promise((resolve, reject) => {
-		execFile(sourceKittenPath, ['complete', '--text', document.getText(), '--offset', (offset - 1).toString()], (error, stdout, stderr) => {
+		execFile(sourceKittenPath, ['complete', '--text', document.getText(), '--offset', offset.toString()], (error, stdout, stderr) => {
 			if (error) { reject(error); }
 			else {
 				let suggestions = <[SwiftCompletionSuggestion]>JSON.parse(stdout.toString());
