@@ -12,6 +12,10 @@ import {
 } from './swiftSourceTypes';
 
 import {
+	ProjectSources
+} from './projectSources';
+
+import {
 	IConnection, IPCMessageReader, IPCMessageWriter, createConnection,
 	InitializeResult,
 	DidChangeConfigurationParams, TextDocumentPositionParams, DocumentSymbolParams,
@@ -26,6 +30,11 @@ let connection: IConnection = createConnection(new IPCMessageReader(process), ne
 // Create a simple text document manager. The text document manager
 // supports full document sync only
 let documents: TextDocuments = new TextDocuments();
+// Create _yet_ _another_ simple text document manager. The reason
+// why this one exists next to `documents` is that I needed to be
+// able to modify the documents in the collection _without_ relying
+// on the connection events.
+let workspaceDocuments: ProjectSources;
 // Make the text document manager listen on the connection
 // for open, change and close text document events
 documents.listen(connection);
@@ -48,9 +57,9 @@ connection.onDidChangeConfiguration((change: DidChangeConfigurationParams) => {
 
 // After the server has started the client sends an initilize request. The server receives
 // in the passed params the rootPath of the workspace plus the client capabilites.
-let workspaceRoot: string;
 connection.onInitialize((params): InitializeResult => {
-	workspaceRoot = params.rootPath;
+	workspaceDocuments = new ProjectSources(params.rootPath);
+	workspaceDocuments.listen(connection);
 	return {
 		capabilities: {
 			// Tell the client that the server works in FULL text document sync mode
@@ -71,11 +80,13 @@ connection.onInitialize((params): InitializeResult => {
 // When one of the above trigger characters is completions are generated.
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Thenable<CompletionItem[]> => {
 	let document: TextDocument = documents.get(textDocumentPosition.textDocument.uri);
-	let offset: number = document.offsetAt(textDocumentPosition.position);
-	connection.console.log(offset.toString());
+	let offset: string = document.offsetAt(textDocumentPosition.position).toString();
+	let text: string = document.getText();
+	let files: string = workspaceDocuments.getAllURIs().join(' ');
+	let args = ['complete', '--text', text, '--offset', offset, "--compilerargs", "--", files];
 
 	let promise: Promise<CompletionItem[]> = new Promise((resolve, reject) => {
-		execFile(sourceKittenPath, ['complete', '--text', document.getText(), '--offset', offset.toString()], (error, stdout, stderr) => {
+		execFile(sourceKittenPath, args, (error, stdout, stderr) => {
 			if (error) { reject(error); }
 			else {
 				let suggestions = <[SwiftCompletionSuggestion]>JSON.parse(stdout.toString());
