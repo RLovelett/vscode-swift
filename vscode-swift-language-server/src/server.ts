@@ -68,6 +68,7 @@ connection.onInitialize((params): InitializeResult => {
 	}
 });
 
+// When one of the above trigger characters is completions are generated.
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Thenable<CompletionItem[]> => {
 	let document: TextDocument = documents.get(textDocumentPosition.textDocument.uri);
 	let offset: number = document.offsetAt(textDocumentPosition.position);
@@ -117,8 +118,10 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 							item.kind = CompletionItemKind.Constructor;
 							item.insertText = suggestion.sourcetext;
 							item.documentation = suggestion.descriptionKey;
-							// remove leading and trailing parens
-							snippet = snippet.substr(1, snippet.length - 2)
+							// constructor completions can be ({params}) or  just {params}
+							// depending on cursor position
+							// remove leading and trailing parens for '()' completions on constructors
+							snippet = snippet.replace(/\(.+?\)/g, "")
 							break;
 						case SwiftType.DeclEnum:
 							item.kind = CompletionItemKind.Enum;
