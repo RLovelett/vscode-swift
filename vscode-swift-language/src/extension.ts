@@ -2,7 +2,7 @@
 
 import * as Path from 'path';
 
-import { ExtensionContext } from 'vscode';
+import { workspace, ExtensionContext } from 'vscode';
 import { LanguageClient, LanguageClientOptions, TransportKind } from 'vscode-languageclient';
 
 // this method is called when your extension is activated
@@ -19,7 +19,8 @@ export function activate(context: ExtensionContext) {
     let clientOptions: LanguageClientOptions = {
         documentSelector: ['swift'],
         synchronize: {
-            configurationSection: 'swift'
+            configurationSection: 'swift',
+            fileEvents: workspace.createFileSystemWatcher('**/*.swift', false, true, false)
         }
     }
 
