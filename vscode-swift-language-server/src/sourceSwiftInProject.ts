@@ -3,7 +3,13 @@ import * as Path from 'path';
 import { TextDocument } from 'vscode-languageserver';
 
 interface File {
+    /**
+     * @type {string}
+     */
     uri: string;
+    /**
+     * @type {fs.Stats}
+     */
     stat: fs.Stats;
 }
 
@@ -11,6 +17,8 @@ interface File {
  * Closure to check if a File instance is a Swift source.
  *
  * A Swift source is a file that is a file on the filesystem and has a .swift extension.
+ * @param {File} file
+ * @returns {boolean}
  */
 let isSwiftSource = (file: File): boolean => {
     return file.stat.isFile() && file.uri.endsWith('.swift');
@@ -18,6 +26,9 @@ let isSwiftSource = (file: File): boolean => {
 
 /**
  * Closure to check if a File instance is a directory.
+ *
+ * @param {File} file
+ * @returns {boolean}
  */
 let isDirectory = (file: File): boolean => {
     return file.stat.isDirectory();
@@ -25,6 +36,9 @@ let isDirectory = (file: File): boolean => {
 
 /**
  * Closure to convert a multi-dimensional array of Files to a single dimensional array.
+ *
+ * @param {File[][]} array
+ * @returns {File[]}
  */
 let flatten = (array: File[][]): File[] => {
     return array.reduce((a, b) => { return a.concat(b); }, []);
@@ -33,8 +47,10 @@ let flatten = (array: File[][]): File[] => {
 /**
  * Read the contents of a file and convert it to a TextDocument.
  *
- * @param file The file to convert to a TextDocument.
- * @returns A TextDocument instance for a given file.
+ *
+ * @export
+ * @param {File} file The file to convert to a TextDocument.
+ * @returns {Promise<TextDocument>}  A TextDocument instance for a given file.
  */
 export function convertFileToTextDocument(file: File): Promise<TextDocument> {
     return new Promise((resolve, reject) => {
@@ -51,8 +67,9 @@ export function convertFileToTextDocument(file: File): Promise<TextDocument> {
 /**
  * Extract the file system statistics for a supplied file.
  *
- * @param path The file or directory to gather filesystem statistics about.
- * @returns The file or directory's filesystem statistics.
+ * @export
+ * @param {string} path The file or directory to gather filesystem statistics about.
+ * @returns {Promise<File>} The file or directory's filesystem statistics.
  */
 export function stat(path: string): Promise<File> {
     return new Promise((resolve, reject) => {
@@ -75,19 +92,22 @@ function statDirectory(directory: string): Promise<File[]> {
     return new Promise((resolve, reject) => {
         fs.readdir(directory, (err, files) => {
             let allFiles: File[] = [];
+
             let appendFiles = (files: File[]): Promise<File[]> => {
                 allFiles = allFiles.concat(files);
                 return Promise.resolve(files);
             };
             // TODO: Can we make the first map lazy?
+
             let promises = files
                 .map((file) => { return Path.join(directory, file) })
                 .map(stat);
-            Promise.all(promises)
+
+            Promise.all<File>(promises)
                 .then(appendFiles)
                 .then((files: File[]) => {
                     let subDirectories = files.filter(isDirectory).map((file) => { return statDirectory(file.uri); });
-                    return Promise.all(subDirectories).then(flatten);
+                    return Promise.all<File[]>(subDirectories).then(flatten);
                 })
                 .then(appendFiles)
                 .then((files: File[]) => {
@@ -101,12 +121,13 @@ function statDirectory(directory: string): Promise<File[]> {
 /**
  * Recursively find all the files with a Swift extension in a supplied directory.
  *
- * @param directory The directory to recursively search for Swift sources.
- * @returns A flattened collection of all the Swift sources as TextDocument instances.
+ * @export
+ * @param {string}  directory The directory to recursively search for Swift sources.
+ * @returns {Promise<TextDocument[]>}  A flattened collection of all the Swift sources as TextDocument instances.
  */
 export function swiftSourcesIn(directory: string): Promise<TextDocument[]> {
     return statDirectory(directory).then((files: File[]) => {
-        return Promise.all(files.filter(isSwiftSource).map(convertFileToTextDocument))
+        return Promise.all<TextDocument>(files.filter(isSwiftSource).map(convertFileToTextDocument))
             .then(n => n);
     });
 }
