@@ -11,7 +11,7 @@ class UnicodeLine {
     }
 
     /**
-     * I think this would best be described as code points.
+     * I think this would best be described as code points. (NO IT IS NOT!)
      */
     get columns(): number {
         return this.toString().length + 1;
@@ -25,9 +25,15 @@ class UnicodeLine {
         }
         let offset = this._byteOffset;
         let currentColumn = 0;
-        for (let ch of this.toString()) {
-            offset += Buffer.byteLength(ch, 'utf8');
+        let text = this._buffer.toString('utf8');
+        let characterIterator = text[Symbol.iterator]();
+        let result = characterIterator.next();
+        while (!result.done) {
+            const ch = result.value;
+            let length = Buffer.byteLength(ch, 'utf8');
+            offset += length;
             currentColumn += 1;
+            result = characterIterator.next();
 
             if (currentColumn === column) {
                 break;
@@ -48,11 +54,11 @@ export class UnicodeTextDocument implements TextDocument {
     private _content: Buffer;
     private _lineOffsets: UnicodeLine[];
 
-    constructor(uri: string, languageId: string = 'swift', version: number, content: string) {
+    constructor(uri: string, languageId: string = 'swift', version: number, content: Buffer) {
         this._uri = uri;
         this._languageId = languageId;
         this._version = version;
-        this._content = new Buffer(content);
+        this._content = content;
         this._lineOffsets = null;
     }
 
@@ -98,7 +104,8 @@ export class UnicodeTextDocument implements TextDocument {
 
     private getLineOffsets(): UnicodeLine[] {
         if (this._lineOffsets === null) {
-            let text = this.getText();
+            let text = this._content;
+
             let line0 = text.slice(0, 13);
             let line1 = text.slice(13, 30);
             let line2 = text.slice(30, 32);
@@ -118,9 +125,19 @@ export class UnicodeTextDocument implements TextDocument {
     }
 }
 
-let uri = '/Users/lovelett/Desktop/vscode-test/source.swift';
-let source: Promise<Buffer> = new Promise((resolve, reject) => {
-    fs.readFile(uri, (err, data) => {
+const ascii = '/Users/lovelett/Desktop/vscode-test/ascii.swift';
+const unicode = '/Users/lovelett/Desktop/vscode-test/unicode.swift';
+
+// Load the text documents
+let asciiBuffer: Promise<Buffer> = new Promise((resolve, reject) => {
+    fs.readFile(ascii, (err, data) => {
+        if (err) { reject(err); }
+        else { resolve(data); }
+    });
+});
+
+let unicodeBuffer: Promise<Buffer> = new Promise((resolve, reject) => {
+    fs.readFile(unicode, (err, data) => {
         if (err) { reject(err); }
         else { resolve(data); }
     });
@@ -128,24 +145,25 @@ let source: Promise<Buffer> = new Promise((resolve, reject) => {
 
 // REMEMBER Position is zero indexed!
 // https://github.com/Microsoft/vscode-languageserver-node/blob/a9f36d43a789e6fd9c16e5e50fc818eb35d097db/types/src/main.ts#L12
-let beginningOfDocument = Position.create(0, 0); // Should be byte-offset of 0
-let endOfDocument = Position.create(4, 13);      // Should be byte-offset of 46
-let position = Position.create(4, 12);           // Should be byte-offset of 45
+// let position = Position.create(0,  0); // Should be byte-offset of 0
+// let position = Position.create(4,  3); // Should be byte-offset of 36
+// let position = Position.create(4,  4); // Should be byte-offset of 37
+// let position = Position.create(4,  5); // Should be byte-offset of ascii: 38, unicode: 41
+// let position = Position.create(4, 12); // Should be byte-offset of ascii: 45, unicode: 48
+let position = Position.create(4, 13); // Should be byte-offset of ascii: 46, unicode: 49
 
-source
-    .then((buffer) => {
-        let document = TextDocument.create(uri, 'swift', 1, buffer.toString('utf8'));
-        let offset = document.offsetAt(position);
-        console.log(`FullTextDocument Line Count: ${document.lineCount}`); // 5
-        console.log(`FullTextDocument offset: ${offset}`); // 45
+asciiBuffer.then((buffer) => TextDocument.create(ascii, 'swift', 1, buffer.toString('utf8')))
+  .then((document) => document.offsetAt(position))
+  .then(console.log);
 
-        return buffer;
-    })
-    .then((buffer) => {
-        let document = new UnicodeTextDocument(uri, 'swift', 1, buffer.toString('utf8'));
-        let byteOffset = document.offsetAt(position);
-        console.log(`UnicodeTextDocument Line Count: ${document.lineCount}`); // 5
-        console.log(`UnicodeTextDocument offset: ${byteOffset}`); // 45
+unicodeBuffer.then((buffer) => TextDocument.create(unicode, 'swift', 1, buffer.toString('utf8')))
+  .then((document) => document.offsetAt(position))
+  .then(console.log);
 
-        return buffer;
-    });
+asciiBuffer.then((buffer) => new UnicodeTextDocument(ascii, 'swift', 1, buffer))
+  .then((document) => document.offsetAt(position))
+  .then(console.log);
+
+unicodeBuffer.then((buffer) => new UnicodeTextDocument(unicode, 'swift', 1, buffer))
+  .then((document) => document.offsetAt(position))
+  .then(console.log);
