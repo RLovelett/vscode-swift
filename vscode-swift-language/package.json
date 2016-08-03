@@ -14,6 +14,18 @@
     "license": "SEE LICENSE IN LICENSE",
     "version": "0.0.5",
     "publisher": "rlovelett",
+    "author": {
+        "name": "Ryan Lovelett",
+        "email": "ryan@lovelett.me",
+        "url": "https://github.com/RLovelett"
+    },
+    "contributors": [
+        {
+            "name": "Aaron Crespo",
+            "email": "aaroncrespo@gmail.com",
+            "url": "https://github.com/aaroncrespo"
+        }
+    ],
     "engines": {
         "vscode": "^1.0.0"
     },
