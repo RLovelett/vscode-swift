@@ -20,6 +20,10 @@ import {
 	TextDocument, TextDocuments, Position, Range, Location
 } from 'vscode-languageserver';
 
+import {
+	UnicodeTextDocument
+} from './test';
+
 // Create a connection for the server. The connection uses Node's IPC as a transport
 let connection: IConnection = createConnection(new IPCMessageReader(process), new IPCMessageWriter(process));
 
@@ -76,9 +80,10 @@ connection.onInitialize((params): InitializeResult => {
 // When one of the above trigger characters is completions are generated.
 connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Thenable<CompletionItem[]> => {
 	let document: TextDocument = documents.get(textDocumentPosition.textDocument.uri);
-	let offset: string = document.offsetAt(textDocumentPosition.position).toString();
+	let uDocument: UnicodeTextDocument = new UnicodeTextDocument(document.uri, document.languageId, document.version, new Buffer(document.getText(), 'utf8'));
+	let offset: string = uDocument.offsetAt(textDocumentPosition.position).toString();
 	let text: string = document.getText();
-	let files: string = workspaceDocuments.getAllURIs().join(' ');
+	let files: string = workspaceDocuments.getAllURIs(document.uri).join(' ');
 	let args = ['complete', '--text', text, '--offset', offset, "--compilerargs", "--", files];
 
 	let promise: Promise<CompletionItem[]> = new Promise((resolve, reject) => {
