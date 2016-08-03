@@ -78,7 +78,7 @@ connection.onCompletion((textDocumentPosition: TextDocumentPositionParams): Then
 	let document: TextDocument = documents.get(textDocumentPosition.textDocument.uri);
 	let offset: string = document.offsetAt(textDocumentPosition.position).toString();
 	let text: string = document.getText();
-	let files: string = workspaceDocuments.getAllURIs().join(' ');
+	let files: string = workspaceDocuments.getBuildArgumentsFor(document.uri).join(' ');
 	let args = ['complete', '--text', text, '--offset', offset, "--compilerargs", "--", files];
 
 	let promise: Promise<CompletionItem[]> = new Promise((resolve, reject) => {

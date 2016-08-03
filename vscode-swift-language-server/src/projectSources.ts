@@ -50,12 +50,19 @@ export class ProjectSources {
     }
 
     /**
-     * Returns the URIs of all text documents managed by this instance.
+     * Generate a set of build arguments that will be sent to SourceKit
+     * for the current set of project sources.
      *
      * @return the URI's of all Swift source documents.
      */
-    public getAllURIs(): string[] {
-        return Array.from(this._sources.keys());
+    public getBuildArgumentsFor(uri: string): string[] {
+        let sources = Array.from(this._sources.keys());
+        let uriWithoutPrefix = removePrefixFrom(uri, uriPrefix);
+        let index = sources.indexOf(uriWithoutPrefix);
+        if (index >= 0) {
+            sources.splice(index, 1);
+        }
+        return sources;
     }
 
     /**
