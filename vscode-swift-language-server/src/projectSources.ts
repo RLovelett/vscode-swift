@@ -54,8 +54,14 @@ export class ProjectSources {
      *
      * @return the URI's of all Swift source documents.
      */
-    public getAllURIs(): string[] {
-        return Array.from(this._sources.keys());
+    public getAllURIs(uri: string): string[] {
+        let all = Array.from(this._sources.keys());
+        let uriWithoutPrefix = removePrefixFrom(uri, uriPrefix);
+        let index = all.indexOf(uriWithoutPrefix);
+        if (index >= 0) {
+            all.splice(index, 1);
+        }
+        return all;
     }
 
     /**
