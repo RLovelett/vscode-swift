@@ -9,6 +9,22 @@
 			"port": 6004,
 			"sourceMaps": true,
 			"outDir": "${workspaceRoot}/../vscode-swift-language/server"
+		},
+		{
+			"name": "Test",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/../vscode-swift-language/server/test.js",
+			"stopOnEntry": false,
+			"args": [],
+			"cwd": "${workspaceRoot}/../vscode-swift-language/server",
+			"preLaunchTask": null,
+			"runtimeExecutable": null,
+			"runtimeArgs": ["--nolazy"],
+			"env": {},
+			"externalConsole": false,
+			"sourceMaps": true,
+			"outDir": "${workspaceRoot}/../vscode-swift-language/server"
 		}
 	]
 }
