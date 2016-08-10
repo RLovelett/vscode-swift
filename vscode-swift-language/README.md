@@ -43,16 +43,24 @@ With [homebrew]() this can easily be achieved by running `brew install sourcekit
 
 ## Extension Settings
 
-None yet. [FUTURE: Allow user to configure](https://github.com/RLovelett/vscode-swift/issues/1) the location of [SourceKitten](https://github.com/jpsim/SourceKitten).
+* `sourcekitten` path
 
 ## Known Issues
 
-- Cannot configure path the SourceKitten
 - Does not run on Linux
 
 ## Release Notes
+For detailed release notes see: [Releases](https://github.com/RLovelett/vscode-swift/releases)
 
-Not a lot to report yet. Just geting started!
+### 0.0.5
+
+* Completions use snippet formatting for placeholders, allows the cursor to tab between placeholders
+* Completions index against all swift files in the workspace
+* Bug fixes
+
+### 0.0.3
+
+* Allow configuring sourceKitten install location
 
 ### 0.0.2
 
