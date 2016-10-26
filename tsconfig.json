@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
+        "target": "es6",
         "module": "commonjs",
-        "target": "es5",
-        "outDir": "../vscode-swift-language/server",
-        "noLib": true,
+        "moduleResolution": "node",
+        "outDir": "out",
         "sourceMap": true
     },
     "exclude": [

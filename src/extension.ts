@@ -1,18 +1,22 @@
 'use strict';
 
-import * as Path from 'path';
+import * as net from 'net';
 
-import { workspace, ExtensionContext } from 'vscode';
-import { LanguageClient, LanguageClientOptions, TransportKind } from 'vscode-languageclient';
+import { workspace, ExtensionContext, Uri } from 'vscode';
+import { ServerOptions, Executable, LanguageClient, LanguageClientOptions, TransportKind } from 'vscode-languageclient';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-    let serverModule = context.asAbsolutePath(Path.join('server', 'server.js'));
-    let debugOptions = { execArgv: ["--nolazy", "--debug=6004"] };
-    let serverOptions = {
-        run: { module: serverModule, transport: TransportKind.ipc },
-        debug: { module: serverModule, transport: TransportKind.ipc, options: debugOptions }
+    let run: Executable = {
+        command: "/Users/ryan/Source/langserver-swift/.build/debug/LanguageServer"
+    };
+    let debug: Executable = {
+        command: "/Users/ryan/Library/Developer/Xcode/DerivedData/langserver-swift-gellhgzzpradfqbgjnbtkvzjqymv/Build/Products/Debug/LanguageServer"
+    };
+    let serverOptions: ServerOptions = {
+        run: run,
+        debug: debug
     };
     
     // client extensions configure their server

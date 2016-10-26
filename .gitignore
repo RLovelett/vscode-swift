@@ -1,9 +1,14 @@
+
 # Created by https://www.gitignore.io/api/visualstudiocode,osx,node,linux
 
 ### VisualStudioCode ###
 out/
 server/
-*.vsix
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
 
 ### OSX ###
 *.DS_Store
@@ -12,10 +17,8 @@ server/
 
 # Icon must end with two \r
 Icon
-
 # Thumbnails
 ._*
-
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100
 .fseventsd
@@ -24,7 +27,6 @@ Icon
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
-
 # Directories potentially created on remote AFP share
 .AppleDB
 .AppleDesktop
@@ -70,8 +72,14 @@ jspm_packages
 # Optional npm cache directory
 .npm
 
+# Optional eslint cache
+.eslintcache
+
 # Optional REPL history
 .node_repl_history
+
+# Output of 'npm pack'
+*.tgz
 
 
 ### Linux ###
@@ -85,3 +93,6 @@ jspm_packages
 
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
