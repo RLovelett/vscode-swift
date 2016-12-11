@@ -1,6 +1,6 @@
 # Swift for Visual Studio Code
 
-This extension adds rich language support for the Swift language to VS Code. These features are provided by the Swift framework itself through [SourceKit](https://github.com/apple/swift/tree/master/tools/SourceKit) and [SourceKitten](https://github.com/jpsim/SourceKitten).
+This extension adds rich language support for the Swift language to VS Code. These features are provided by the Swift framework itself through [SourceKit](https://github.com/apple/swift/tree/master/tools/SourceKit) and [a Swift Language Server](https://github.com/RLovelett/langserver-swift) implementation.
 
 Currently the extension provides rudimentary support for:
 
@@ -33,24 +33,49 @@ Do the same for your own custom types. Including documentation comments.
 
 ## Requirements
 
-This extension requires Swift to be installed on your system. More specifically it requires [SourceKit](https://github.com/apple/swift/tree/master/tools/SourceKit) and [SourceKitten](https://github.com/jpsim/SourceKitten) to be available as well.
+This extension requires Swift to be installed on your system. [It also requires a Swift language server be installed as well.](https://github.com/RLovelett/langserver-swift)
+By default the extension looks for the language server to be installed at `/usr/local/bin/LanguageServer` (though this behavior is configurable).
 
-[Currently, SourceKit and by extension SourceKitten, do not compile on Linux.](https://github.com/jpsim/SourceKitten/pull/223) This limits the extension to only work on macOS. This is not expected to be the long-term solution. In fact running on Linux was the whole reason why I started this extension.
+### Swift
 
-The extension expects [`v0.13.0` of SourceKitten](https://github.com/jpsim/SourceKitten/releases/tag/0.13.0) to be installed at `/usr/local/bin/sourcekitten`.
+* Swift Open Source `swift-DEVELOPMENT-SNAPSHOT-2016-12-01-a` toolchain (**Minimum REQUIRED for latest release**)
 
-With [homebrew]() this can easily be achieved by running `brew install sourcekitten`.
+### macOS
+
+* macOS 10.11.6 (*El Capitan*) or higher
+* Xcode Version 8.2 beta (8C30a) or higher using one of the above toolchains (*Recommended*)
+
+### Linux
+
+* [Coming Soon?](https://github.com/apple/swift/pull/5903)
+
+#### A few remarks about Linux support
+
+The language server that drives this extension depends on [SourceKit](https://github.com/apple/swift/tree/master/tools/SourceKit) to be available with the Swift toolchain.
+Unfortunately, at this time that means that Linux support is not really possible because [SourceKit is not built by default on Linux](https://github.com/apple/swift/pull/5903).
+
+[Of course it is _possible_ to build SourceKit for Linux](https://github.com/apple/swift/pull/5903). However, doing so is beyond the scope of this project.
+
+All of the dependencies of the language server, at least ostensibly, support Linux. So there should be little preventing Linux support beyond SourceKit being available on the platform.
+
+I want to stress: **I hope this will not be the long-term answer/solution**. In fact running on Linux was the whole reason why I started this extension.
 
 ## Extension Settings
 
-* `sourcekitten` path
+* `LanguageServer` path
 
 ## Known Issues
 
 - Does not run on Linux
 
 ## Release Notes
+
 For detailed release notes see: [Releases](https://github.com/RLovelett/vscode-swift/releases)
+
+### 0.1.0
+
+* Swift 3.1 (via previews)
+* [Swift native language server implementation](https://github.com/RLovelett/langserver-swift)
 
 ### 0.0.5
 
