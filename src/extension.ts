@@ -8,12 +8,12 @@ import { ServerOptions, Executable, LanguageClient, LanguageClientOptions, Trans
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-    let run: Executable = {
-        command: "/Users/ryan/Source/langserver-swift/.build/debug/LanguageServer"
-    };
-    let debug: Executable = {
-        command: "/Users/ryan/Library/Developer/Xcode/DerivedData/langserver-swift-gellhgzzpradfqbgjnbtkvzjqymv/Build/Products/Debug/LanguageServer"
-    };
+    // Load the path to the language server from settings
+    let executableCommand = workspace.getConfiguration("swift")
+        .get("languageServerPath", "/usr/local/bin/LanguageServer");
+
+    let run: Executable = { command: executableCommand };
+    let debug: Executable = run;
     let serverOptions: ServerOptions = {
         run: run,
         debug: debug

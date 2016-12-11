@@ -47,12 +47,12 @@
     "contributes": {
         "configuration": {
             "type": "object",
-            "title": "Swift Toolchain Configuration",
+            "title": "Swift Extension Configuration",
             "properties": {
-                "swift.sourceKittenPath": {
+                "swift.languageServerPath": {
                     "type": "string",
-                    "default": "/usr/local/bin/sourcekitten",
-                    "description": "The fully qualified path to the SourceKitten executable."
+                    "default": "/usr/local/bin/LanguageServer",
+                    "description": "The fully qualified path to the Swift Language Server executable."
                 }
             }
         }
