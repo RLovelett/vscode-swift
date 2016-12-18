@@ -24,7 +24,10 @@ export function activate(context: ExtensionContext) {
         documentSelector: ['swift'],
         synchronize: {
             configurationSection: 'swift',
-            fileEvents: workspace.createFileSystemWatcher('**/*.swift', false, true, false)
+            fileEvents: [
+                workspace.createFileSystemWatcher('**/*.swift', false, true, false),
+                workspace.createFileSystemWatcher('**/.build/{debug,release}.yaml', false, false, false)
+            ]
         }
     }
 
