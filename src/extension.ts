@@ -21,7 +21,10 @@ export function activate(context: ExtensionContext) {
     
     // client extensions configure their server
     let clientOptions: LanguageClientOptions = {
-        documentSelector: ['swift'],
+        documentSelector: [
+            { language: 'swift', scheme: 'file' },
+            { language: 'swift', scheme: 'untitled' }
+        ],
         synchronize: {
             configurationSection: 'swift',
             fileEvents: [
