@@ -25,11 +25,11 @@ Future support for:
 
 Use completion lists to find out about available standard library types and function signatures.
 
-![Struct Def](http://i.giphy.com/26gJAJzxzZDsVEs24.gif)
+![Struct Def](https://i.giphy.com/26gJAJzxzZDsVEs24.gif)
 
 Do the same for your own custom types. Including documentation comments.
 
-![Struct Docs](http://i.giphy.com/l0HlzNmlfLl7fyc0g.gif)
+![Struct Docs](https://i.giphy.com/l0HlzNmlfLl7fyc0g.gif)
 
 ## Requirements
 
