@@ -30,7 +30,7 @@
         "vscode": "^1.12.0"
     },
     "categories": [
-        "Languages"
+        "Programming Languages"
     ],
     "keywords": [
         "Swift",
@@ -49,10 +49,20 @@
             "type": "object",
             "title": "Swift Extension Configuration",
             "properties": {
-                "swift.languageServerPath": {
+                "swift.languageServerExecutableCommand": {
                     "type": "string",
-                    "default": "/usr/local/bin/LanguageServer",
+                    "default": "langserver-swift",
                     "description": "The fully qualified path to the Swift Language Server executable."
+                },
+                "swift.languageServerEnvironmentPATH": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Prepend the existing system PATH variable with this string."
+                },
+                "swift.swiftBinaryDirectory": {
+                    "type": "string",
+                    "default": "/usr/local/bin",
+                    "description": "The bin directory that contains the Swift compiler."
                 }
             }
         }

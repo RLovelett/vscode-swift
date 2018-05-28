@@ -9,10 +9,20 @@ import { ServerOptions, Executable, LanguageClient, LanguageClientOptions, Trans
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
     // Load the path to the language server from settings
-    let executableCommand = workspace.getConfiguration("swift")
-        .get("languageServerPath", "/usr/local/bin/LanguageServer");
+    const configuration = workspace.getConfiguration("swift");
+    let executableCommand = configuration.get("languageServerExecutableCommand", "langserver-swift");
+    let executablePath = configuration.get("languageServerEnvironmentPATH", "");
+    executablePath = (executablePath === "") ? process.env.PATH : `${executablePath}:${process.env.PATH}`;
+    let swiftBinaryDirectory = configuration.get("swiftBinaryDirectory", "/usr/local/bin");
 
-    let run: Executable = { command: executableCommand };
+    let run: Executable = {
+        command: executableCommand,
+        options: {
+            env: {
+                PATH: executablePath
+            }
+        }
+    };
     let debug: Executable = run;
     let serverOptions: ServerOptions = {
         run: run,
@@ -31,6 +41,9 @@ export function activate(context: ExtensionContext) {
                 workspace.createFileSystemWatcher('**/*.swift', false, true, false),
                 workspace.createFileSystemWatcher('**/.build/{debug,release}.yaml', false, false, false)
             ]
+        },
+        initializationOptions: {
+            swiftBinaryDirectory
         }
     }
 
